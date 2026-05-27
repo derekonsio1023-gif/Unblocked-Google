@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cargador Multimedia Avanzado</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #0b0b10; margin: 0; }
+        button { padding: 15px 30px; font-size: 18px; font-weight: bold; background: #fa8231; color: white; border: none; border-radius: 5px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(250, 130, 49, 0.4); }
+        button:hover { background: #f39c12; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <button onclick="iniciarEntornoCompleto()">Abrir 55GMS con Imágenes</button>
+
+    <script>
+        function iniciarEntornoCompleto() {
+            // Abrimos la pestaña vacía about:blank de manera inmediata
+            const win = window.open('about:blank', '_blank');
+
+            if (win) {
+                // Forzamos un contenedor dinámico con políticas de referencia relajadas (no-referrer)
+                // Esto engaña al CDN de imágenes para que no bloquee las peticiones desde about:blank
+                const estructuraHTML = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <!-- Forzamos al navegador a omitir el origen para evitar bloqueos de CDN -->
+                        <meta name="referrer" content="no-referrer">
+                        <title>55GMS - Panel</title>
+                        <base href="https://55gms.com/">
+                        <style>
+                            html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0b0b10; }
+                            iframe { width: 100%; height: 100%; border: none; }
+                        </style>
+                    </head>
+                    <body>
+                        <!-- Usamos un elemento de aislamiento controlado que hereda las políticas de la cabecera meta -->
+                        <iframe src="https://55gms.com/" referrerpolicy="no-referrer" allow="fullscreen"></iframe>
+                    </body>
+                    </html>
+                `;
+
+                // Escribimos el documento reparado en el espacio reservado por el navegador
+                win.document.open();
+                win.document.write(estructuraHTML);
+                win.document.close();
+            } else {
+                alert("Por favor, permite las ventanas emergentes (pop-ups).");
+            }
+        }
+    </script>
+</body>
+</html>
