@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cargador CDN Reparado</title>
+    <!-- Mantenemos la librería del CDN -->
+    <script src="https://jsdelivr.net"></script>
+</head>
+<body>
+
+    <button onclick="desplegarJuegoReparado()">Iniciar 55GMS Completo</button>
+
+    <script>
+        function desplegarJuegoReparado() {
+            // Dirección raíz original del juego
+            const dominioOriginal = "https://55gms.com";
+
+            // Creamos la pestaña limpia
+            const win = window.open('about:blank', '_blank');
+
+            if (win) {
+                // Descargamos el código fuente limpio mediante el proxy de traducción para saltar el CORS
+                const urlProxy = "https://google.com" + encodeURIComponent(dominioOriginal);
+
+                fetch(urlProxy)
+                    .then(response => response.text())
+                    .then(htmlCodigo => {
+                        // PARCHE CRÍTICO: Inyectamos la etiqueta <base> en la cabecera del código.
+                        // Esto le indica al navegador que resuelva cualquier imagen o enlace roto apuntando a 55GMS.
+                        const parcheBaseUrl = `<head><base href="${dominioOriginal}">`;
+                        const codigoModificado = htmlCodigo.replace("<head>", parcheBaseUrl);
+
+                        // Escribimos el código ya reparado en la RAM sin usar contenedores iframe
+                        win.document.open();
+                        win.document.write(codigoModificado);
+                        win.document.close();
+                    })
+                    .catch(err => {
+                        win.document.write("<h2>Error al conectar con los recursos del servidor externo.</h2>");
+                    });
+            } else {
+                alert("Por favor, permite las ventanas emergentes (pop-ups).");
+            }
+        }
+    </script>
+</body>
+</html>
