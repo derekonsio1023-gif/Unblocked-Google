@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cargador Autónomo</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #0b0b10; margin: 0; }
+        button { padding: 15px 30px; font-size: 18px; font-weight: bold; background: #6c5ce7; color: white; border: none; border-radius: 5px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4); }
+        button:hover { background: #5b4cdb; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <button onclick="abrirEspacio()">Abrir 55GMS Seguro</button>
+
+    <script>
+        function abrirEspacio() {
+            // Abrimos la ventana limpia about:blank de forma síncrona
+            const win = window.open('about:blank', '_blank');
+
+            if (win) {
+                // Generamos la estructura de un navegador virtual puro
+                // Usamos un objeto incrustado que apunta directamente a la dirección web original
+                const estructuraHTML = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Cargando...</title>
+                        <style>
+                            html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0b0b10; }
+                            object { width: 100%; height: 100%; border: none; }
+                        </style>
+                    </head>
+                    <body>
+                        <!-- La etiqueta object carga los recursos dinámicos sin pasar por peticiones fetch de JavaScript -->
+                        <object data="https://55gms.com" type="text/html"></object>
+                    </body>
+                    </html>
+                `;
+
+                // Escribimos directamente en la raíz de memoria asignada a la pestaña
+                // Al no usar un fetch intermedio, no puede saltar el error de conexión externa
+                win.document.open();
+                win.document.write(estructuraHTML);
+                win.document.close();
+            } else {
+                alert("Por favor, permite las ventanas emergentes (pop-ups).");
+            }
+        }
+    </script>
+</body>
+</html>
