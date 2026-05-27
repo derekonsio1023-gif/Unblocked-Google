@@ -2,25 +2,27 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Cargador Autónomo</title>
+    <title>Cargador Optimizado</title>
+    <!-- PRECARGA DE RED: Le dice al navegador que descargue los recursos de 55GMS en segundo plano apenas se abre la página de Githack -->
+    <link rel="dns-prefetch" href="https://55gms.com">
+    <link rel="preconnect" href="https://55gms.com" crossorigin>
+    
     <style>
         body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #0b0b10; margin: 0; }
-        button { padding: 15px 30px; font-size: 18px; font-weight: bold; background: #6c5ce7; color: white; border: none; border-radius: 5px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4); }
-        button:hover { background: #5b4cdb; transform: scale(1.05); }
+        button { padding: 15px 30px; font-size: 18px; font-weight: bold; background: #2ed573; color: white; border: none; border-radius: 5px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(46, 213, 115, 0.4); }
+        button:hover { background: #26af5f; transform: scale(1.05); }
     </style>
 </head>
 <body>
 
-    <button onclick="abrirEspacio()">Abrir 55GMS Seguro</button>
+    <button onclick="abrirEspacioRapido()">Abrir 55GMS (Modo Rápido)</button>
 
     <script>
-        function abrirEspacio() {
-            // Abrimos la ventana limpia about:blank de forma síncrona
+        function abrirEspacioRapido() {
             const win = window.open('about:blank', '_blank');
 
             if (win) {
-                // Generamos la estructura de un navegador virtual puro
-                // Usamos un objeto incrustado que apunta directamente a la dirección web original
+                // Añadimos atributos de carga acelerada al objeto
                 const estructuraHTML = `
                     <!DOCTYPE html>
                     <html>
@@ -32,14 +34,12 @@
                         </style>
                     </head>
                     <body>
-                        <!-- La etiqueta object carga los recursos dinámicos sin pasar por peticiones fetch de JavaScript -->
-                        <object data="https://55gms.com" type="text/html"></object>
+                        <!-- Usamos loading="eager" para forzar al motor del navegador a dar prioridad de internet absoluta a este elemento -->
+                        <object data="https://55gms.com" type="text/html" loading="eager"></object>
                     </body>
                     </html>
                 `;
 
-                // Escribimos directamente en la raíz de memoria asignada a la pestaña
-                // Al no usar un fetch intermedio, no puede saltar el error de conexión externa
                 win.document.open();
                 win.document.write(estructuraHTML);
                 win.document.close();
