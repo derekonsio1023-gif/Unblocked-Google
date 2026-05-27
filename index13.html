@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cargador Autónomo</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #0b0b10;
+      margin: 0;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      background: #6c5ce7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+    }
+    button:hover {
+      background: #5b4cdb;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <button onclick="abrirEspacio()">Abrir 55GMS Seguro</button>
+
+  <script>
+    function abrirEspacio() {
+      const win = window.open("https://55gms.com", "_blank");
+      if (!win) {
+        alert("Por favor, permite las ventanas emergentes (pop-ups).");
+      }
+    }
+  </script>
+</body>
+</html>
