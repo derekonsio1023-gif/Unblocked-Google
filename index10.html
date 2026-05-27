@@ -2,40 +2,41 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Cargador Optimizado</title>
-    <!-- PRECARGA DE RED: Le dice al navegador que descargue los recursos de 55GMS en segundo plano apenas se abre la página de Githack -->
+    <title>Cargador Multimedia</title>
     <link rel="dns-prefetch" href="https://55gms.com">
     <link rel="preconnect" href="https://55gms.com" crossorigin>
     
     <style>
         body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #0b0b10; margin: 0; }
-        button { padding: 15px 30px; font-size: 18px; font-weight: bold; background: #2ed573; color: white; border: none; border-radius: 5px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(46, 213, 115, 0.4); }
-        button:hover { background: #26af5f; transform: scale(1.05); }
+        button { padding: 15px 30px; font-size: 18px; font-weight: bold; background: #00bcd4; color: white; border: none; border-radius: 5px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4); }
+        button:hover { background: #0097a7; transform: scale(1.05); }
     </style>
 </head>
 <body>
 
-    <button onclick="abrirEspacioRapido()">Abrir 55GMS (Modo Rápido)</button>
+    <button onclick="abrirEspacioVisual()">Abrir 55GMS Completo</button>
 
     <script>
-        function abrirEspacioRapido() {
+        function abrirEspacioVisual() {
             const win = window.open('about:blank', '_blank');
 
             if (win) {
-                // Añadimos atributos de carga acelerada al objeto
+                // Cambiamos el contenedor a EMBED e inyectamos la cabecera BASE
+                // Esto repara los enlaces de las imágenes rotas al instante
                 const estructuraHTML = `
                     <!DOCTYPE html>
                     <html>
                     <head>
                         <title>Cargando...</title>
+                        <base href="https://55gms.com">
                         <style>
                             html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0b0b10; }
-                            object { width: 100%; height: 100%; border: none; }
+                            embed { width: 100%; height: 100%; border: none; }
                         </style>
                     </head>
                     <body>
-                        <!-- Usamos loading="eager" para forzar al motor del navegador a dar prioridad de internet absoluta a este elemento -->
-                        <object data="https://55gms.com" type="text/html" loading="eager"></object>
+                        <!-- EMBED carga e interpreta los elementos gráficos de forma nativa sin romper las rutas -->
+                        <embed src="https://55gms.com" type="text/html">
                     </body>
                     </html>
                 `;
